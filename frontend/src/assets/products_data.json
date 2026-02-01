@@ -1,0 +1,214 @@
+{
+  "samples": [
+    {
+      "id": 1,
+      "device_category": "laptop",
+      "brand": "HP",
+      "model_or_series": "Pavilion",
+      "image": "/products_dummy/hp_pavilion.jpg",
+      "visible_specs": {
+        "form_factor": "clamshell laptop",
+        "camera_count": "1",
+        "camera_layout": "top-center bezel",
+        "material": "plastic",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper", "iron"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "cobalt", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.88
+    },
+    {
+      "id": 2,
+      "device_category": "laptop",
+      "brand": "Dell",
+      "model_or_series": "Inspiron",
+      "image": "/products_dummy/dell_inspiron.avif",
+      "visible_specs": {
+        "form_factor": "clamshell laptop",
+        "camera_count": "1",
+        "camera_layout": "top-center bezel",
+        "material": "aluminum",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "nickel", "graphite"],
+        "structural_materials": ["metal", "glass"]
+      },
+      "confidence": 0.90
+    },
+    {
+      "id": 3,
+      "device_category": "smartphone",
+      "brand": "Redmi",
+      "model_or_series": "Note Series",
+      "image": "/products_dummy/redmi_note_series.png",
+      "visible_specs": {
+        "form_factor": "slab smartphone",
+        "camera_count": "3",
+        "camera_layout": "rear vertical module",
+        "material": "glass back",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "cobalt", "graphite"],
+        "structural_materials": ["glass", "plastic"]
+      },
+      "confidence": 0.92
+    },
+    {
+      "id": 4,
+      "device_category": "smartphone",
+      "brand": "Samsung",
+      "model_or_series": "Galaxy A Series",
+      "image": "/products_dummy/samsung_galaxy_a_series.webp",
+      "visible_specs": {
+        "form_factor": "slab smartphone",
+        "camera_count": "4",
+        "camera_layout": "rear rectangular module",
+        "material": "plastic back",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "nickel", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.91
+    },
+    {
+      "id": 5,
+      "device_category": "laptop",
+      "brand": "ASUS",
+      "model_or_series": "TUF Gaming",
+      "image": "/products_dummy/asus_tuf.png",
+      "visible_specs": {
+        "form_factor": "clamshell laptop",
+        "camera_count": "1",
+        "camera_layout": "top-center bezel",
+        "material": "plastic",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper", "iron"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "cobalt", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.89
+    },
+    {
+      "id": 6,
+      "device_category": "laptop",
+      "brand": "Lenovo",
+      "model_or_series": "IdeaPad",
+      "image": "/products_dummy/lenovo_ideapad.jpg",
+      "visible_specs": {
+        "form_factor": "clamshell laptop",
+        "camera_count": "1",
+        "camera_layout": "top-center bezel",
+        "material": "plastic",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "nickel", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.87
+    },
+    {
+      "id": 7,
+      "device_category": "smartphone",
+      "brand": "Apple",
+      "model_or_series": "iPhone",
+      "image": "/products_dummy/apple_iphone.jpeg",
+      "visible_specs": {
+        "form_factor": "slab smartphone",
+        "camera_count": "2",
+        "camera_layout": "rear vertical module",
+        "material": "glass back",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "cobalt", "graphite"],
+        "structural_materials": ["glass", "metal"]
+      },
+      "confidence": 0.93
+    },
+    {
+      "id": 8,
+      "device_category": "smartphone",
+      "brand": "OnePlus",
+      "model_or_series": "Nord Series",
+      "image": "/products_dummy/oneplus_nord.png",
+      "visible_specs": {
+        "form_factor": "slab smartphone",
+        "camera_count": "4",
+        "camera_layout": "rear rectangular module",
+        "material": "glass back",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "nickel", "graphite"],
+        "structural_materials": ["glass", "plastic"]
+      },
+      "confidence": 0.91
+    },
+    {
+      "id": 9,
+      "device_category": "laptop",
+      "brand": "Acer",
+      "model_or_series": "Aspire",
+      "image": "/products_dummy/aser_aspire.png",
+      "visible_specs": {
+        "form_factor": "clamshell laptop",
+        "camera_count": "1",
+        "camera_layout": "top-center bezel",
+        "material": "plastic",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper", "iron"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "cobalt", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.86
+    },
+    {
+      "id": 10,
+      "device_category": "smartphone",
+      "brand": "Realme",
+      "model_or_series": "Number Series",
+      "image": "/products_dummy/realme_revolution.jpeg",
+      "visible_specs": {
+        "form_factor": "slab smartphone",
+        "camera_count": "3",
+        "camera_layout": "rear vertical module",
+        "material": "plastic back",
+        "logo_visible": "yes"
+      },
+      "minerals_present": {
+        "metals": ["aluminum", "copper"],
+        "semiconductors": ["silicon"],
+        "battery_materials": ["lithium", "nickel", "graphite"],
+        "structural_materials": ["plastic", "glass"]
+      },
+      "confidence": 0.90
+    }
+  ]
+}
