@@ -6,7 +6,8 @@ const {
   getDashboardStats,
   getAlerts,
   getAccuracyTrend,
-  getHistory
+  getHistory,
+  getTimelineStats
 } = require("../controllers/dashboard.controller")
 
 const router = express.Router()
@@ -18,5 +19,6 @@ router.get("/stats", getDashboardStats)
 router.get("/alerts", getAlerts)
 router.get("/accuracy", getAccuracyTrend)
 router.get("/history", getHistory)
+router.get("/timeline", getTimelineStats)
 
 module.exports = router

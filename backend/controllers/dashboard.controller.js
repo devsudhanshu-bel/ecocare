@@ -361,3 +361,86 @@ exports.getAccuracyTrend = async (req, res) => {
   }
 }
 
+/* =========================
+   TIMELINE GRAPH (COUNTS)
+========================= */
+exports.getTimelineStats = async (req, res) => {
+  try {
+    const { range = "today" } = req.query
+    const { start, end } = getDateRange(range)
+
+    let dateFormat
+    let countType = "products" // default
+
+    switch (range) {
+      case "today":
+        dateFormat = "%H" // Hour
+        countType = "components"
+        break
+      case "month":
+        dateFormat = "%d" // Day
+        countType = "products"
+        break
+      case "year":
+        dateFormat = "%m" // Month
+        countType = "products"
+        break
+      case "lifetime":
+        dateFormat = "%Y" // Year
+        countType = "components"
+        break
+      default:
+        dateFormat = "%d"
+    }
+
+    // Aggregation Pipeline
+    const pipeline = [
+      { $match: { createdAt: { $gte: start, $lte: end } } }
+    ]
+
+    // If counting components, we need to calculate the sum of array lengths
+    if (countType === "components") {
+      pipeline.push({
+        $project: {
+          createdAt: 1,
+          componentCount: {
+            $add: [
+              { $size: { $ifNull: ["$metals", []] } },
+              { $size: { $ifNull: ["$semiconductors", []] } },
+              { $size: { $ifNull: ["$battery_materials", []] } },
+              { $size: { $ifNull: ["$structural_materials", []] } }
+            ]
+          }
+        }
+      })
+    }
+
+    // Grouping
+    pipeline.push({
+      $group: {
+        _id: { $dateToString: { format: dateFormat, date: "$createdAt" } },
+        value: { $sum: countType === "components" ? "$componentCount" : 1 }
+      }
+    })
+
+    // Sorting
+    pipeline.push({ $sort: { _id: 1 } })
+
+    const data = await Detection.aggregate(pipeline)
+
+    const formatted = data.map(d => ({
+      day: d._id,
+      value: d.value
+    }))
+
+    res.status(200).json({
+      data: formatted,
+      type: countType
+    })
+
+  } catch (error) {
+    console.error("TIMELINE STATS ERROR:", error.message)
+    res.status(500).json({ error: error.message })
+  }
+}
+

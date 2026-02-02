@@ -11,31 +11,75 @@ import {
 
 function DetectionChart({ range }) {
   const [data, setData] = useState([])
+  const [type, setType] = useState("products")
   const [loading, setLoading] = useState(true)
 
+  /* ================= HELPER: GENERATE FULL X-AXIS ================= */
+  const generateFullAxis = (rangeType) => {
+    const now = new Date()
+
+    switch (rangeType) {
+      case "today":
+        // 24 hours: 00 to 23
+        return Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"))
+
+      case "month":
+        // All days of current month
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+        return Array.from({ length: daysInMonth }, (_, i) => String(i + 1).padStart(2, "0"))
+
+      case "year":
+        // 12 months: 01 to 12
+        return Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"))
+
+      case "lifetime":
+        // Last 5 years
+        const currentYear = now.getFullYear()
+        return Array.from({ length: 5 }, (_, i) => String(currentYear - 4 + i))
+
+      default:
+        return []
+    }
+  }
+
+  /* ================= HELPER: MERGE DATA WITH FULL AXIS ================= */
+  const mergeWithFullAxis = (apiData, rangeType) => {
+    const fullAxis = generateFullAxis(rangeType)
+    const dataMap = new Map(apiData.map(d => [d.day, d.value]))
+
+    return fullAxis.map(label => ({
+      day: label,
+      value: dataMap.get(label) || 0
+    }))
+  }
+
   /* ================= FETCH FUNCTION (STABLE) ================= */
-  const fetchAccuracy = useCallback(async () => {
+  const fetchTimeline = useCallback(async () => {
     try {
       setLoading(true)
 
       const res = await fetch(
-        `http://localhost:5000/api/dashboard/accuracy?range=${range}`
+        `http://localhost:5000/api/dashboard/timeline?range=${range}`
       )
 
       if (!res.ok) {
-        throw new Error("Failed to fetch accuracy trend")
+        throw new Error("Failed to fetch timeline stats")
       }
 
       const result = await res.json()
-      console.log("📈 ACCURACY TREND:", result)
+      console.log("📈 TIMELINE STATS:", result)
 
-      if (!Array.isArray(result) || result.length === 0) {
-        setData([])
+      if (!result.data || !Array.isArray(result.data)) {
+        // Even with no data, show empty axis
+        setData(mergeWithFullAxis([], range))
       } else {
-        setData(result)
+        // Merge API data with full axis
+        setData(mergeWithFullAxis(result.data, range))
+        setType(result.type)
       }
     } catch (err) {
-      console.error("Accuracy fetch failed:", err)
+      console.error("Timeline fetch failed:", err)
+      setData(mergeWithFullAxis([], range))
     } finally {
       setLoading(false)
     }
@@ -43,14 +87,14 @@ function DetectionChart({ range }) {
 
   /* ================= INITIAL + RANGE CHANGE ================= */
   useEffect(() => {
-    fetchAccuracy()
-  }, [fetchAccuracy])
+    fetchTimeline()
+  }, [fetchTimeline])
 
   /* ================= LIVE SOCKET UPDATE ================= */
   useEffect(() => {
     const handleLiveUpdate = () => {
-      console.log("📈 Accuracy LIVE update")
-      fetchAccuracy()
+      console.log("📈 Timeline LIVE update")
+      fetchTimeline()
     }
 
     socket.on("detection:new", handleLiveUpdate)
@@ -58,22 +102,28 @@ function DetectionChart({ range }) {
     return () => {
       socket.off("detection:new", handleLiveUpdate)
     }
-  }, [fetchAccuracy])
+  }, [fetchTimeline])
+
+  // Dynamic Title
+  const getTitle = () => {
+    if (type === "components") return "Components Detected Timeline"
+    return "Products Detected Timeline"
+  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm h-full flex flex-col">
       <h3 className="text-sm font-medium text-gray-900 mb-6">
-        Detection Accuracy Trend
+        {getTitle()}
       </h3>
 
       <div className="flex-1">
         {loading ? (
           <div className="h-full flex items-center justify-center text-sm text-gray-400">
-            Loading accuracy trend...
+            Loading timeline...
           </div>
         ) : data.length === 0 ? (
           <div className="h-full flex items-center justify-center text-sm text-gray-400">
-            No accuracy data available
+            No data available for this period
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
@@ -86,7 +136,7 @@ function DetectionChart({ range }) {
                 tick={{ fill: "#6b7280", fontSize: 12 }}
               />
               <YAxis
-                domain={[0, 100]}
+                allowDecimals={false}
                 tickLine={false}
                 axisLine={false}
                 tick={{ fill: "#6b7280", fontSize: 12 }}
